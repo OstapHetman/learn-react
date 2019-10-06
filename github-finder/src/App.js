@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar'
 import Alert from './components/layout/Alert'
 import Users from './components/users/Users'
+import User from './components/users/User'
 import Search from './components/users/Search'
 import About from './components/pages/About'
 import axios from 'axios'
@@ -11,8 +12,10 @@ import './App.css';
 class App extends Component {
   state = {
     users: [],
+    repos: [],
+    user: {},
     loading: false,
-    alert: null
+    alert: null,
   }
 
   searchUsers = async (text) => {
@@ -21,6 +24,24 @@ class App extends Component {
     const res = await axios.get(`https://api.github.com/search/users?q=${text}`);
 
     this.setState({ users: res.data.items, loading: false });
+  }
+
+  // Get single Github User
+  getUser = async (username) => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(`https://api.github.com/users/${username}`);
+
+    this.setState({ user: res.data, loading: false });
+  }
+
+  // Get users repos
+  getUserRepos = async (username) => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc`);
+
+    this.setState({ user: res.data, loading: false });
   }
 
   clearUsers = () => {
@@ -33,7 +54,7 @@ class App extends Component {
   }
 
   render() {
-    const { users, loading } = this.state;
+    const { users, user, loading, repos } = this.state;
 
     return (
       <Router>
@@ -55,6 +76,16 @@ class App extends Component {
                 </Fragment>
               )} />
               <Route exact path='/about' component={About} />
+              <Route exact path="/user/:login" render={props => (
+                <User
+                  {...props}
+                  getUser={this.getUser}
+                  getUserRepos={this.getUserRepos}
+                  repos={repos}
+                  user={user}
+                  loading={loading}
+                />
+              )} />
             </Switch>
 
           </div>
