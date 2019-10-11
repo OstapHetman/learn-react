@@ -12,3 +12,39 @@ export const StoryWrapper = styled.section`
         padding-bottom: 0;
     }
 `;
+
+// Title & Meta
+
+export const StoryTitle = styled.h1`
+    margin-bottom: 5px;
+    font-size: 18px;
+    line-height: 1.8
+    margin:0;
+    text-decoration:none;
+    a {
+        color: #2e2e2c;
+        background-color: #f8dc3d;
+        text-decoration: none;
+    }
+`
+
+export const StoryMeta = styled.div`
+    font-styled: italic;
+
+    > span:first-child {
+        margin-right: 5px;
+    }
+    > span:not(:first-child):before {
+        content: '● ';
+        marging-right: 7px;
+        margin-left: 7px;
+    }
+    .story__meta-bold {
+        font-weight: bold
+    }
+`
+
+export const StoryMetaElement = styled.span`
+    font-weight: bold;
+    color: ${props => props.color || 'red'}
+`
