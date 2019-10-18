@@ -104,10 +104,7 @@ class SignupComponent extends React.Component {
                 this.setState({ password: e.target.value })
                 break;
             case 'password-confirm':
-                    this.setState({ confrimPassword: e.target.value })
-                    break;
-    
-            default:
+                this.setState({ confrimPassword: e.target.value })
                 break;
         }
     }
